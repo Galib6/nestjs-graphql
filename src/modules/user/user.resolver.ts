@@ -18,7 +18,7 @@ export class UserResolver {
   login(
     @Args('loginUserInput')
     loginUserInput: LoginUserInput,
-  ) {
+  ): Promise<GqlUserWithToken> {
     return this.userService.login(loginUserInput);
   }
 
@@ -27,7 +27,7 @@ export class UserResolver {
   createUser(
     @Args('createUserInput')
     createUserInput: CreateUserInput,
-  ) {
+  ): Promise<GqlUserWithToken> {
     return this.userService.createUser(createUserInput);
   }
   @Query(() => GqlUserWithToken, { name: 'profile' })

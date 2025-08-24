@@ -8,7 +8,11 @@ import { LoggerModule } from 'nestjs-pino';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './modules';
+import { TriggerModule, UserModule } from './modules';
+import { ActionModule } from './modules/action/action.module';
+import { NodeObjectModule } from './modules/nodeObject/node-object.module';
+import { ResourceTemplateModule } from './modules/reponseTemplate/resourceTemplate.module';
+import { ResponseModule } from './modules/response/response.module';
 
 @Module({
   imports: [
@@ -20,6 +24,7 @@ import { UserModule } from './modules';
     }),
     DBModule,
     UserModule,
+
     GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
       useFactory: (): ApolloDriverConfig => ({
@@ -36,6 +41,11 @@ import { UserModule } from './modules';
         }),
       }),
     }),
+    ActionModule,
+    TriggerModule,
+    ResponseModule,
+    ResourceTemplateModule,
+    NodeObjectModule,
     LoggerModule.forRoot({
       pinoHttp: {
         autoLogging: false,
