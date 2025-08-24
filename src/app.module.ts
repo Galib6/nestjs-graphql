@@ -2,12 +2,13 @@ import { DBModule } from '@libs/db/db.module';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { validateEnv } from '@src/libs/core/utils/config';
 import { LoggerModule } from 'nestjs-pino';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { JwtAuthGuard } from './libs/core/auth/guards/jwt-auth-guard';
 import { TriggerModule, UserModule } from './modules';
 import { ActionModule } from './modules/action/action.module';
 import { NodeObjectModule } from './modules/nodeObject/node-object.module';
@@ -60,6 +61,12 @@ import { ResponseModule } from './modules/response/response.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AppModule {}
